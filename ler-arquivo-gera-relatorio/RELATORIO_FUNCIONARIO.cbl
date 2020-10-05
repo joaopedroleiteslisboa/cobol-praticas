@@ -22,12 +22,12 @@
        FILE-CONTROL.
 
        SELECT ARQFUN
-              ASSIGN 'C:\aula_cobol_thulio_cobol\ARQFUNCIONARIO.txt'
+              ASSIGN 'C:\ARQFUNCIONARIO.txt'
               ORGANIZATION       IS LINE SEQUENTIAL.
 
       *
        SELECT ARQREL
-              ASSIGN 'C:\aula_cobol_thulio_cobol\ARQRELATORIO.txt'
+              ASSIGN 'C:\ARQRELATORIO.txt'
               ORGANIZATION       IS LINE SEQUENTIAL.
       *
       *----------------------------------------------------------------*
@@ -120,7 +120,7 @@
            READ ARQFUN
                   AT END
                      MOVE 'S' TO WS-EOF
-                     DISPLAY '----- UMA VEZ SÓ OU MAIS'
+                     DISPLAY '----- UMA VEZ SÃ“ OU MAIS'
                   NOT AT END
 
                      CONTINUE
