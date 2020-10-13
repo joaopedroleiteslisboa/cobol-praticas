@@ -5,7 +5,7 @@
       * Tectonics: cobc
       ******************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. ALTURA_MAIOR.
+       PROGRAM-ID. HOMEM_OU_MULHER.
       *----------------------------------------------------------------*
        ENVIRONMENT                     DIVISION.
       *----------------------------------------------------------------*
@@ -22,12 +22,12 @@
        FILE-CONTROL.
 
        SELECT ARQ-DB
-              ASSIGN 'C:\cobol\DBREGISTROS.TXT'
+              ASSIGN 'C:\cobol\DBREGISTROSHOMEMMULHE.TXT'
               ORGANIZATION       IS LINE SEQUENTIAL.
 
       *
        SELECT ARQREL
-              ASSIGN 'C:\cobol\ARQRELATORIOS.TXT'
+              ASSIGN 'C:\cobol\ARQRELATORIOSHOMENOUMULHER.TXT'
               ORGANIZATION       IS LINE SEQUENTIAL.
       *
       *----------------------------------------------------------------*
@@ -37,30 +37,47 @@
 
        FD  ARQ-DB
            LABEL RECORD STANDARD
-           VALUE OF FILE-ID IS "ARQFUNCIONARIO.TXT".
+           VALUE OF FILE-ID IS "ARQRELATORIOSHOMENOUMULHER.TXT".
        01  REG-PESSOAS.
            03 FD-COD-P            PIC 9(03).
            03 FD-NOME-P           PIC X(20).
-           03 FD-ALTURA-P         PIC 9(4).
+           03 FD-GENERO-P         PIC X(1).
 
        FD  ARQREL
            LABEL RECORD STANDARD
-           VALUE OF FILE-ID IS "ARQRELATORIO.TXT".
+           VALUE OF FILE-ID IS "ARQRELATORIOSHOMENOUMULHER.TXT".
        01  REG-RELATORIO          PIC X(80).
       *----------------------------------------------------------------*
        WORKING-STORAGE SECTION.
       *----------------------------------------------------------------*
-       77  WS-EOF        PIC X(01) VALUE ' '.
-       77  WS-LINHABRACO PIC X(80) VALUE SPACES.
-       77  WS-PONTILHADO PIC X(80) VALUE ALL '-'.
-       77  WS-TOTSAL-AUX PIC 9(09)V99 VALUE ZEROS.
-       77  WS-PAG-AUX    PIC 9(03) VALUE ZEROS.
-       77  CONT-LIN      PIC 9(03) VALUE ZEROS.
+       77  WS-EOF          PIC X(01) VALUE ' '.
+       77  WS-LINHABRACO   PIC X(80) VALUE SPACES.
+       77  WS-PONTILHADO   PIC X(80) VALUE ALL '-'.
+       77  WS-TOTSAL-AUX   PIC 9(09)V99 VALUE ZEROS.
+       77  WS-PAG-AUX      PIC 9(03) VALUE ZEROS.
+       77  CONT-LIN        PIC 9(03) VALUE ZEROS.
+
+       01  WS-VARIAVEIS.
+           03 WS-DATA-HORA                PIC X(30).
+           03 WS-TIMESTAMP.
+               05 WS-DATA.
+                   07 WS-ANO               PIC 9(04).
+                   07 WS-MES               PIC 9(02).
+                   07 WS-DIA               PIC 9(02).
+               05 WS-HORA.
+                   07 WS-HH                PIC 9(02).
+                   07 WS-MM                PIC 9(02).
+                   07 WS-SS                PIC 9(02).
+                   07 WS-MS                PIC 9(02).
 
        01  WS-CABECALHO.
            03 WS-LINHA1.
-              05 FILLER  PIC X(11) VALUE 'CURSO COBOL'.
-              05 FILLER  PIC X(60) VALUE SPACES.
+              05 FILLER  PIC X(14) VALUE 'CURSO COBOL - '.
+              05 FILLER  PIC X(06) VALUE 'DATA: '.
+              05 WS-DATA-SISTEMA   PIC X(10).
+              05 FILLER  PIC X(07) VALUE ' HORA: '.
+              05 WS-HORA-SISTEMA    PIC X(08).
+              05 FILLER  PIC X(26) VALUE SPACES.
               05 FILLER  PIC X(04) VALUE 'PAG:'.
               05 WS-PAG  PIC zzz9.
 
@@ -74,33 +91,53 @@
               05 FILLER  PIC X(02) VALUE SPACES.
               05 FILLER  PIC X(20) VALUE 'Nome Pessoa    '.
               05 FILLER  PIC X(10) VALUE SPACES.
-              05 FILLER  PIC X(13) VALUE 'Altura Pessoa'.
+              05 FILLER  PIC X(6) VALUE 'Genero'.
               05 FILLER  PIC X(11) VALUE SPACES.
-              05 FILLER  PIC X(19) VALUE 'Alta'.
+
 
       *
        01  WS-DETALHE.
-           03 WS-CODFUN            PIC 9(03) VALUE ZEROS.
+           03 WS-COD-P             PIC 9(03) VALUE ZEROS.
            03 FILLER               PIC X(08) VALUE SPACES.
            03 FILLER               PIC X(11) VALUE SPACES.
-           03 WS-NOMEFUN           PIC X(20) VALUE ZEROS.
+           03 WS-NOME-P            PIC X(20) VALUE ZEROS.
            03 FILLER               PIC X(10) VALUE SPACES.
-           03 WS-ALTURA-P          PIC Z.99.
-           03 FILLER               PIC X(19) VALUE SPACES.
-           03 WS-PESSOA-ALTA       PIC X(01) VALUE 'N'.
+           03 WS-GENERO-P          PIC X(1).
+
        01  WS-RODAPE.
-           03 FILLER               PIC X(30) VALUE 'TOTAL PESSOAS'.
-           03 WS-TOTAL-P           PIC 9(2).
+           03 FILLER               PIC X(14) VALUE 'TOTAL PESSOAS:'.
+           03 FILLER               PIC X(1) VALUE SPACES.
+           03 WS-TOTAL-P           PIC 9(2) VALUE ZEROS.
+           03 FILLER               PIC X(3) VALUE SPACES.
+           03 FILLER               PIC X(18) VALUE 'TOTAL DE MULHERES:'.
+           03 FILLER               PIC X(1) VALUE SPACES.
+           03 WS-QTD-MULHERES     PIC 9(2) VALUE ZEROS.
+           03 FILLER               PIC X(3) VALUE SPACES.
+           03 FILLER               PIC X(13) VALUE 'TOTAL HOMENS:'.
+           03 FILLER               PIC X(1) VALUE SPACES.
+           03 WS-QTD-HOMENS       PIC 9(2) VALUE ZEROS.
 
 
       *----------------------------------------------------------------*
        PROCEDURE DIVISION.
       *----------------------------------------------------------------*
            MAIN-PROCEDURE.
+
             OPEN INPUT ARQ-DB
             OPEN OUTPUT ARQREL
 
             MOVE 70 TO CONT-LIN
+
+           MOVE FUNCTION CURRENT-DATE TO WS-TIMESTAMP
+
+           STRING WS-DIA '/' WS-MES '/' WS-ANO
+               DELIMITED BY SIZE INTO WS-DATA-SISTEMA
+           END-STRING
+
+           STRING WS-HH ':' WS-MM ':' WS-SS
+               DELIMITED BY SIZE INTO WS-HORA-SISTEMA
+           END-STRING
+
 
             PERFORM 1000-LER-ARQUIVO
 
@@ -122,6 +159,7 @@
       *----------------------------------------------------------------*
            READ ARQ-DB
                   AT END
+
                      MOVE 'S' TO WS-EOF
                   NOT AT END
 
@@ -156,25 +194,36 @@
        3000-TRATA-DETALHE.
       *----------------------------------------------------------------*
 
-           MOVE FD-COD-P TO WS-CODFUN
-           MOVE FD-NOME-P TO WS-NOMEFUN
-           MOVE FD-ALTURA-P TO WS-ALTURA-P
+           MOVE FD-COD-P TO WS-COD-P
+           MOVE FD-NOME-P TO WS-NOME-P
+
+           MOVE FD-GENERO-P TO WS-GENERO-P
 
 
-           IF FD-ALTURA-P >= 0200
-               MOVE 'S' TO WS-PESSOA-ALTA
+           IF WS-GENERO-P = 'M'
+               ADD 1 TO WS-QTD-MULHERES
+               DISPLAY WS-NOME-P 'E UMA MULHER'
+
            END-IF
 
+           IF WS-GENERO-P = 'H'
+               ADD 1 TO WS-QTD-HOMENS
+               DISPLAY WS-NOME-P 'E UM HOMEM'
 
+           END-IF
            DISPLAY WS-DETALHE
+
+
+
            WRITE REG-RELATORIO FROM WS-DETALHE
-           ADD 1 TO CONT-LIN
+            ADD 1 TO CONT-LIN
+
 
            ADD 1 TO WS-TOTAL-P
 
 
            IF CONT-LIN = 57
-              PERFORM 4000-TRATA-RODAPE
+               PERFORM 4000-TRATA-RODAPE
            .
            EXIT.
       *----------------------------------------------------------------*
@@ -194,4 +243,4 @@
            .
            EXIT.
 
-       END PROGRAM ALTURA_MAIOR.
+       END PROGRAM HOMEM_OU_MULHER.
