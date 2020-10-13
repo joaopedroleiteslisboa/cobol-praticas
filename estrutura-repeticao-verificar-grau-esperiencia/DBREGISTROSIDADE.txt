@@ -2,21 +2,21 @@
 002JOAO                M15
 003RODRIGO             M18
 004TESTE               M18
-005ANA                 M18
+005ANA                 F18
 006PEDRO               M18
 007DIEGO               M13
-008CRIS                M12
-009NOME 1              H15
-001THULIO              H16
-002JOAO                H19
-003RODRIGO             H20
-004TESTE               H33
-005ANA                 M13
+008CRIS                F12
+009NOME 1              F15
+001THULIO              F16
+002JOAO                F19
+003RODRIGO             F20
+004TESTE               F33
+005ANA                 F13
 006PEDRO               M11
-007DIEGO               H09
-008CRIS                H76
-009NOME 1              H35
-010NOME 1              H72
-001THULIO              H13
-002JOAO                H17
-003RODRIGO             H14
+007DIEGO               F09
+008CRISA               F76
+009NOME 1              M35
+010NOME 1              M72
+001THULIO              M13
+002JOAO                M17
+003RODRIGO             M14

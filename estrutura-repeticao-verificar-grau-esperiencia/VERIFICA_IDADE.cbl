@@ -51,12 +51,14 @@
       *----------------------------------------------------------------*
        WORKING-STORAGE SECTION.
       *----------------------------------------------------------------*
-       77  WS-EOF          PIC X(01) VALUE ' '.
-       77  WS-LINHABRACO   PIC X(80) VALUE SPACES.
-       77  WS-PONTILHADO   PIC X(80) VALUE ALL '-'.
-       77  WS-TOTSAL-AUX   PIC 9(09)V99 VALUE ZEROS.
-       77  WS-PAG-AUX      PIC 9(03) VALUE ZEROS.
-       77  CONT-LIN        PIC 9(03) VALUE ZEROS.
+       77  WS-EOF              PIC X(01) VALUE ' '.
+       77  WS-LINHABRACO       PIC X(80) VALUE SPACES.
+       77  WS-PONTILHADO       PIC X(80) VALUE ALL '-'.
+       77  WS-TOTSAL-AUX       PIC 9(09)V99 VALUE ZEROS.
+       77  WS-PAG-AUX          PIC 9(03) VALUE ZEROS.
+       77  CONT-LIN            PIC 9(03) VALUE ZEROS.
+       77  WS-PCT-AUX-ADOL     PIC 9(03)V9(31) VALUE ZEROS.
+
 
        01  WS-VARIAVEIS.
            03 WS-DATA-HORA                PIC X(30).
@@ -92,7 +94,7 @@
               05 FILLER  PIC X(02) VALUE SPACES.
               05 FILLER  PIC X(20) VALUE 'Nome Pessoa    '.
               05 FILLER  PIC X(10) VALUE SPACES.
-              05 FILLER  PIC X(6) VALUE 'Genero'.
+              05 FILLER  PIC X(6)  VALUE 'Genero'.
               05 FILLER  PIC X(11) VALUE SPACES.
 
 
@@ -108,30 +110,30 @@
 
        01  WS-RODAPE-LINHA-1.
            03 FILLER              PIC X(14) VALUE 'TOTAL PESSOAS:'.
-           03 FILLER              PIC X(6) VALUE SPACES.
-           03 WS-TOTAL-P          PIC 9(2) VALUE ZEROS.
-           03 FILLER              PIC X(2) VALUE SPACES.
+           03 FILLER              PIC X(6)  VALUE SPACES.
+           03 WS-TOTAL-P          PIC 9(2)  VALUE ZEROS.
+           03 FILLER              PIC X(2)  VALUE SPACES.
            03 FILLER              PIC X(15) VALUE 'TOTAL FEMININO:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
-           03 WS-QTD-MULHERES     PIC 9(2) VALUE ZEROS.
-           03 FILLER              PIC X(2) VALUE SPACES.
+           03 FILLER              PIC X(1)  VALUE SPACES.
+           03 WS-QTD-MULHERES     PIC 9(2)  VALUE ZEROS.
+           03 FILLER              PIC X(11) VALUE SPACES.
            03 FILLER              PIC X(16) VALUE 'TOTAL MASCULINO:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
-           03 WS-QTD-HOMENS       PIC 9(2) VALUE ZEROS.
-           03 FILLER              PIC X(2) VALUE SPACES.
+           03 FILLER              PIC X(3)  VALUE SPACES.
+           03 WS-QTD-HOMENS       PIC 9(2)  VALUE ZEROS.
+           03 FILLER              PIC X(2)  VALUE SPACES.
 
        01  WS-RODAPE-LINHA-2.
            03 FILLER              PIC X(18) VALUE 'TOTAL ADOLESCENTE:'.
-           03 FILLER              PIC X(2) VALUE SPACES.
-           03 WS-QTD-ADOLESCENTE  PIC 9(2) VALUE ZEROS.
-           03 FILLER              PIC X(2) VALUE SPACES.
+           03 FILLER              PIC X(2)  VALUE SPACES.
+           03 WS-QTD-ADOLESCENTE  PIC 9(2)  VALUE ZEROS.
+           03 FILLER              PIC X(2)  VALUE SPACES.
            03 FILLER              PIC X(15) VALUE 'TOTAL CRIANCAS:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
-           03 WS-QTD-CRIANCAS     PIC 9(2) VALUE ZEROS.
-           03 FILLER              PIC X(2) VALUE SPACES.
+           03 FILLER              PIC X(1)  VALUE SPACES.
+           03 WS-QTD-CRIANCAS     PIC 9(2)  VALUE ZEROS.
+           03 FILLER              PIC X(11) VALUE SPACES.
            03 FILLER              PIC X(14) VALUE 'TOTAL ADULTOS:'.
-           03 FILLER              PIC X(3) VALUE SPACES.
-           03 WS-QTD-ADULTOS      PIC 9(2) VALUE ZEROS.
+           03 FILLER              PIC X(5)  VALUE SPACES.
+           03 WS-QTD-ADULTOS      PIC 9(2)  VALUE ZEROS.
 
        01  WS-RODAPE-LINHA-3.
            03 FILLER              PIC X(19)
@@ -141,9 +143,16 @@
            03 FILLER              PIC X(2) VALUE SPACES.
            03 FILLER              PIC X(20)
            VALUE 'PORCENTAGEM ADOLESC:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
-           03 WS-PCT-ADOLESCENTES PIC 9(2) VALUE ZEROS.
-           03 FILLER              PIC X(2) VALUE SPACES.
+
+           03 WS-PCT-ADOL         PIC ZZ9,99 VALUE ZEROS.
+           03 FILLER              PIC X(1)   VALUE '%'.
+           03 FILLER              PIC X(2)   VALUE SPACES.
+           03 FILLER              PIC X(18)
+           VALUE 'TOTAL ADULTO MASC:'.
+           03 FILLER              PIC X(1)   VALUE SPACES.
+           03 TOTAL-ADULTO-MASC   PIC 9(2)   VALUE ZEROS.
+           03 FILLER              PIC X(2)   VALUE SPACES.
+
 
 
 
@@ -179,6 +188,7 @@
                PERFORM 1000-LER-ARQUIVO
             END-PERFORM
 
+            PERFORM 4050-COMPUTAR-PORCENTAGEM-ADOL
             PERFORM 5000-TRATA-RODAPE
 
             CLOSE ARQ-DB ARQREL
@@ -229,12 +239,12 @@
            MOVE FD-IDADE-P TO WS-IDADE-P
 
 
-           IF WS-GENERO-P = 'M'
+           IF WS-GENERO-P = 'F'
                ADD 1 TO WS-QTD-MULHERES
 
            END-IF
 
-           IF WS-GENERO-P = 'H'
+           IF WS-GENERO-P = 'M'
                ADD 1 TO WS-QTD-HOMENS
            END-IF
 
@@ -261,13 +271,38 @@
       *----------------------------------------------------------------*
            IF WS-IDADE-P >= 17
                   ADD 1 TO WS-QTD-ADULTOS
+                  IF WS-GENERO-P = 'M'
+                      ADD 1 TO TOTAL-ADULTO-MASC
+                   END-IF
+
            ELSE IF WS-IDADE-P >= 15 AND WS-IDADE-P < 17
                    ADD 1 TO WS-QTD-ADOLESCENTE
            ELSE
                ADD 1 TO WS-QTD-CRIANCAS
 
+               IF WS-GENERO-P = 'F'
+                   ADD 1 TO WS-QTD-CRIAN-FEM
+               END-IF
+
+           END-IF
+
+
            .
            EXIT.
+
+      *----------------------------------------------------------------*
+       4050-COMPUTAR-PORCENTAGEM-ADOL.
+
+           COMPUTE WS-PCT-AUX-ADOL ROUNDED =
+                                 (WS-QTD-ADOLESCENTE * 100)/ WS-TOTAL-P
+
+           MOVE WS-PCT-AUX-ADOL TO WS-PCT-ADOL
+
+           .
+           EXIT.
+      *----------------------------------------------------------------*
+
+
       *----------------------------------------------------------------*
        5000-TRATA-RODAPE.
       *----------------------------------------------------------------*
@@ -284,13 +319,11 @@
            WRITE REG-RELATORIO FROM WS-PONTILHADO
            DISPLAY WS-PONTILHADO
 
-
            WRITE REG-RELATORIO FROM WS-RODAPE-LINHA-3
            WRITE REG-RELATORIO FROM WS-PONTILHADO
            DISPLAY WS-PONTILHADO
 
            ADD 7 TO CONT-LIN
-
 
            .
            EXIT.

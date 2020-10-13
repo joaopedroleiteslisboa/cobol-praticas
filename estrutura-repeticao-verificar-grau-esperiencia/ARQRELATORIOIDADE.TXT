@@ -1,4 +1,4 @@
-CURSO COBOL - DATA: 13/10/2020 HORA: 15:10:07                          PAG:   1
+CURSO COBOL - DATA: 13/10/2020 HORA: 17:09:21                          PAG:   1
 --------------------------------------------------------------------------------
                             Listagem de Pessoas
 --------------------------------------------------------------------------------
@@ -8,26 +8,28 @@ Codigo Pessoa       Nome Pessoa                   Genero
 002                   JOAO                          M15
 003                   RODRIGO                       M18
 004                   TESTE                         M18
-005                   ANA                           M18
+005                   ANA                           F18
 006                   PEDRO                         M18
 007                   DIEGO                         M13
-008                   CRIS                          M12
-009                   NOME 1                        H15
-001                   THULIO                        H16
-002                   JOAO                          H19
-003                   RODRIGO                       H20
-004                   TESTE                         H33
-005                   ANA                           M13
+008                   CRIS                          F12
+009                   NOME 1                        F15
+001                   THULIO                        F16
+002                   JOAO                          F19
+003                   RODRIGO                       F20
+004                   TESTE                         F33
+005                   ANA                           F13
 006                   PEDRO                         M11
-007                   DIEGO                         H09
-008                   CRIS                          H76
-009                   NOME 1                        H35
-010                   NOME 1                        H72
-001                   THULIO                        H13
-002                   JOAO                          H17
-003                   RODRIGO                       H14
+007                   DIEGO                         F09
+008                   CRISA                         F76
+009                   NOME 1                        M35
+010                   NOME 1                        M72
+001                   THULIO                        M13
+002                   JOAO                          M17
+003                   RODRIGO                       M14
 --------------------------------------------------------------------------------
-TOTAL PESSOAS: 22  TOTAL DE MULHERES: 10  TOTAL HOMENS: 12
+TOTAL PESSOAS:      22  TOTAL FEMININO: 10           TOTAL MASCULINO:   12
 --------------------------------------------------------------------------------
-TOTAL ADOLESCENTE: 03  TOTAL CRIANCAS: 08  TOTAL ADULTOS: 11
+TOTAL ADOLESCENTE:  03  TOTAL CRIANCAS: 08           TOTAL ADULTOS:     11
+--------------------------------------------------------------------------------
+TOTAL CRIANCAS FEM: 03  PORCENTAGEM ADOLESC: 13,63%  TOTAL ADULTO MASC: 06
 --------------------------------------------------------------------------------
