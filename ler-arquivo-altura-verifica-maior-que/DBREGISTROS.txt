@@ -1,0 +1,22 @@
+001THULIO              0189
+002JOAO                0172
+003RODRIGO             0155
+004TESTE               0190
+005ANA                 0210
+006PEDRO               0186
+007DIEGO               0170
+008CRIS                0175
+009NOME 1              0155
+001THULIO              0199
+002JOAO                0204
+003RODRIGO             0218
+004TESTE               0177
+005ANA                 0177
+006PEDRO               0199
+007DIEGO               0167
+008CRIS                0174
+009NOME 1              0178
+010NOME 1              0189
+001THULIO              0169
+002JOAO                0170
+003RODRIGO             0170
