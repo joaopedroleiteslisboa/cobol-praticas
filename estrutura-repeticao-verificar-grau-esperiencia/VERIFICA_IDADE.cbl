@@ -108,21 +108,21 @@
 
        01  WS-RODAPE-LINHA-1.
            03 FILLER              PIC X(14) VALUE 'TOTAL PESSOAS:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
+           03 FILLER              PIC X(6) VALUE SPACES.
            03 WS-TOTAL-P          PIC 9(2) VALUE ZEROS.
            03 FILLER              PIC X(2) VALUE SPACES.
-           03 FILLER              PIC X(18) VALUE 'TOTAL DE MULHERES:'.
+           03 FILLER              PIC X(15) VALUE 'TOTAL FEMININO:'.
            03 FILLER              PIC X(1) VALUE SPACES.
            03 WS-QTD-MULHERES     PIC 9(2) VALUE ZEROS.
            03 FILLER              PIC X(2) VALUE SPACES.
-           03 FILLER              PIC X(13) VALUE 'TOTAL HOMENS:'.
+           03 FILLER              PIC X(16) VALUE 'TOTAL MASCULINO:'.
            03 FILLER              PIC X(1) VALUE SPACES.
            03 WS-QTD-HOMENS       PIC 9(2) VALUE ZEROS.
            03 FILLER              PIC X(2) VALUE SPACES.
 
        01  WS-RODAPE-LINHA-2.
            03 FILLER              PIC X(18) VALUE 'TOTAL ADOLESCENTE:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
+           03 FILLER              PIC X(2) VALUE SPACES.
            03 WS-QTD-ADOLESCENTE  PIC 9(2) VALUE ZEROS.
            03 FILLER              PIC X(2) VALUE SPACES.
            03 FILLER              PIC X(15) VALUE 'TOTAL CRIANCAS:'.
@@ -130,8 +130,21 @@
            03 WS-QTD-CRIANCAS     PIC 9(2) VALUE ZEROS.
            03 FILLER              PIC X(2) VALUE SPACES.
            03 FILLER              PIC X(14) VALUE 'TOTAL ADULTOS:'.
-           03 FILLER              PIC X(1) VALUE SPACES.
+           03 FILLER              PIC X(3) VALUE SPACES.
            03 WS-QTD-ADULTOS      PIC 9(2) VALUE ZEROS.
+
+       01  WS-RODAPE-LINHA-3.
+           03 FILLER              PIC X(19)
+           VALUE 'TOTAL CRIANCAS FEM:'.
+           03 FILLER              PIC X(1) VALUE SPACES.
+           03 WS-QTD-CRIAN-FEM    PIC 9(2) VALUE ZEROS.
+           03 FILLER              PIC X(2) VALUE SPACES.
+           03 FILLER              PIC X(20)
+           VALUE 'PORCENTAGEM ADOLESC:'.
+           03 FILLER              PIC X(1) VALUE SPACES.
+           03 WS-PCT-ADOLESCENTES PIC 9(2) VALUE ZEROS.
+           03 FILLER              PIC X(2) VALUE SPACES.
+
 
 
       *----------------------------------------------------------------*
@@ -271,7 +284,12 @@
            WRITE REG-RELATORIO FROM WS-PONTILHADO
            DISPLAY WS-PONTILHADO
 
-           ADD 4 TO CONT-LIN
+
+           WRITE REG-RELATORIO FROM WS-RODAPE-LINHA-3
+           WRITE REG-RELATORIO FROM WS-PONTILHADO
+           DISPLAY WS-PONTILHADO
+
+           ADD 7 TO CONT-LIN
 
 
            .
