@@ -1,0 +1,19 @@
+CURSO COBOL - DATA: 13/10/2020 HORA: 21:26:32                          PAG:   1
+--------------------------------------------------------------------------------
+                          RELACAO DE FUNCIONARIOS
+Matricula              Nome do Funcionario                    Salario
+  999                   JOAO DA SILVA                         1.500,00
+  888                   PEDRO                                 1.700,00
+  777                   ANA MARIA                             1.900,00
+  666                   ROGERIO ANTONIO                       2.500,00
+  555                   HENRIQUE                              3.700,00
+  444                   GUSTAVO DE PAULA                      4.900,00
+  333                   GUSTAVO SABIAR                        4.900,00
+--------------------------------------------------------------------------------
+TOTAL POR DEPARTAMENTO      QTD                      TOTAL SALARIO ALOCADO
+  ALMOXARIFADO:             002                             4.000,00
+  COMPRA/VENDA:             002                             5.400,00
+  FINANCEIRO:               003                            11.700,00
+  SEGURANCA:                000                                 0,00
+--------------------------------------------------------------------------------
+TOTAL GERAL:                007                              21.100,00
